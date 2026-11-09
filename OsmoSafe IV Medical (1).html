@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OsmoSafe IV Medical</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="OsmoSafe">
+<meta name="theme-color" content="#0b6f9e">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3f7;--sf:#fff;--sf2:#f3f7fa;--ln:#d6e1ea;--tx:#0f1f2e;--mu:#5a6f82;--ac:#0b6f9e;--ok:#0e8f63;--wn:#b7791f;--bd:#c0392b;--okb:#e3f5ee;--wnb:#fbf1de;--bdb:#fbe6e3;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08131d;--sf:#0f1f2d;--sf2:#142839;--ln:#1f3548;--tx:#e6edf3;--mu:#8ba3b7;--ac:#7cc4e8;--ok:#4cd6a0;--wn:#f0b252;--bd:#ff7b6b;--okb:#0f2b24;--wnb:#2d2410;--bdb:#32151a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#08131d;--sf:#0f1f2d;--sf2:#142839;--ln:#1f3548;--tx:#e6edf3;--mu:#8ba3b7;--ac:#7cc4e8;--ok:#4cd6a0;--wn:#f0b252;--bd:#ff7b6b;--okb:#0f2b24;--wnb:#2d2410;--bdb:#32151a;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.55 'DM Sans',system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 0 8px}
+h1{font:600 28px/1.1 'Cormorant Garamond',Georgia,serif;margin:0;letter-spacing:.2px}
+.sub{color:var(--mu);font-size:13px;margin-top:2px}
+.tg{background:var(--sf);border:1px solid var(--ln);color:var(--tx);border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;cursor:pointer}
+.tg:focus-visible,select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.hero{background:var(--sf);border:1px solid var(--ln);border-radius:22px;padding:26px 24px;margin:14px 0 18px;transition:background .4s,border-color .4s}
+.hero[data-t="ok"]{border-color:var(--ok)}.hero[data-t="wn"]{border-color:var(--wn)}.hero[data-t="bd"]{border-color:var(--bd)}
+.lbl{color:var(--mu);font-size:13px}
+.big{font:600 84px/1 'Cormorant Garamond',Georgia,serif;display:flex;align-items:baseline;gap:10px;margin:6px 0 4px;font-variant-numeric:lining-nums}
+.big small{font:500 16px 'DM Sans';color:var(--mu)}
+.gauge{position:relative;height:10px;border-radius:99px;margin:22px 0 8px;background:linear-gradient(90deg,var(--ok) 0 50%,var(--wn) 50% 75%,var(--bd) 75% 100%);opacity:.9}
+.pin{position:absolute;top:-7px;width:4px;height:24px;border-radius:3px;background:var(--tx);box-shadow:0 0 0 3px var(--sf);transform:translateX(-50%);transition:left .5s}
+.tk{position:relative;height:16px;color:var(--mu);font-size:12px}
+.tk span{position:absolute;transform:translateX(-50%)}
+.verdict{margin-top:16px;padding:14px 16px;border-radius:14px;background:var(--sf2)}
+.hero[data-t="ok"] .verdict{background:var(--okb)}.hero[data-t="wn"] .verdict{background:var(--wnb)}.hero[data-t="bd"] .verdict{background:var(--bdb)}
+.verdict b{display:block;font-size:16px;margin-bottom:2px}
+.hero[data-t="ok"] .verdict b{color:var(--ok)}.hero[data-t="wn"] .verdict b{color:var(--wn)}.hero[data-t="bd"] .verdict b{color:var(--bd)}
+.stats{display:flex;gap:28px;margin-top:16px;color:var(--mu);font-size:13px}.stats b{display:block;color:var(--tx);font-size:17px}
+.alert{display:none;margin:0 0 12px;padding:13px 16px;border-radius:14px;background:var(--wnb);border:1px solid var(--wn);font-size:14px}
+.alert.on{display:block}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:900px){.grid{grid-template-columns:1.25fr 1fr}}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:20px;margin-bottom:16px}
+h2{font:600 22px/1.2 'Cormorant Garamond',Georgia,serif;margin:0 0 14px}
+label{display:block;font-size:12.5px;color:var(--mu);margin-bottom:5px}
+select,input{width:100%;background:var(--sf2);color:var(--tx);border:1px solid var(--ln);border-radius:11px;padding:11px 12px;font:inherit;font-size:14px}
+.row2{display:grid;grid-template-columns:1fr 110px;gap:12px}
+.add{background:var(--sf2);border:1px solid var(--ln);border-radius:14px;padding:12px;margin-bottom:10px}
+.add .r{display:grid;grid-template-columns:1fr 84px 36px;gap:8px;align-items:center}
+.add p{margin:8px 2px 0;font-size:12.5px;color:var(--mu)}
+.x{background:none;border:0;color:var(--mu);font-size:20px;cursor:pointer;border-radius:8px;height:36px}
+.btn{width:100%;padding:12px;border-radius:12px;border:1px dashed var(--ac);background:none;color:var(--ac);font:500 14px 'DM Sans';cursor:pointer}
+.site{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:13.5px;background:var(--sf2)}
+.site.ok{background:var(--okb)}.site.wn{background:var(--wnb)}.site.bd{background:var(--bdb)}
+ul.g{margin:0;padding:0;list-style:none;font-size:13.5px;color:var(--mu)}
+ul.g li{padding:10px 0 10px 14px;border-left:3px solid var(--ln);margin-bottom:8px}
+ul.g li.a{border-color:var(--ok)}ul.g li.b{border-color:var(--wn)}ul.g li.c{border-color:var(--bd)}
+ul.g b{color:var(--tx)}
+footer{color:var(--mu);font-size:12px;text-align:center;padding:14px 0 30px}
+.ins{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:14px 16px;margin:10px 0 0}
+.ins b{display:block;font-size:15px}.ins span{font-size:13px;color:var(--mu)}
+.ins button{flex:none;background:var(--ac);color:var(--bg);border:0;border-radius:999px;padding:11px 18px;font:700 14px 'DM Sans';cursor:pointer}
+.how{display:none;background:var(--sf2);border:1px solid var(--ln);border-radius:14px;padding:14px 16px;margin-top:8px;font-size:13.5px;color:var(--mu)}
+.how.on{display:block}.how b{color:var(--tx)}.how ol{margin:6px 0 0;padding-left:20px}
+@media(max-width:520px){.big{font-size:68px}.ins{flex-direction:column;align-items:stretch}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div><h1>OsmoSafe IV Medical</h1><div class="sub">Kalkulator osmolaritas dan keamanan akses vena</div></div>
+ <button class="tg" id="tg" type="button" aria-label="Ganti tema">Tema</button>
+</header>
+<div id="insWrap">
+<div class="ins"><div><b>Pasang OsmoSafe di HP Anda</b><span>Buka langsung dari layar utama, tanpa mengetik alamat web.</span></div><button id="inst" type="button">Pasang aplikasi</button></div>
+<div class="how" id="how" aria-live="polite"></div>
+</div>
+
+<section class="hero" id="hero" data-t="ok" aria-live="polite">
+ <div class="lbl">Osmolaritas campuran</div>
+ <div class="big"><span id="osm">0</span><small>mOsm/L</small></div>
+ <div class="gauge"><div class="pin" id="pin" style="left:5%"></div></div>
+ <div class="tk"><span style="left:0%;transform:none">0</span><span style="left:50%">600</span><span style="left:75%">900</span><span style="left:100%;transform:translateX(-100%)">1200+</span></div>
+ <div class="verdict"><b id="vt"></b><span id="vd"></span></div>
+ <div class="stats"><div>Volume total<b id="sv">0 mL</b></div><div>Total zat terlarut<b id="ss">0 mOsm</b></div></div>
+</section>
+
+<div class="alert on" id="inc" style="display:none"></div>
+
+<div class="grid">
+ <div>
+  <div class="card">
+   <h2>Cairan dasar</h2>
+   <div class="row2">
+    <div><label for="fl">Jenis cairan dan merek</label><select id="fl"></select></div>
+    <div><label for="vol">Volume (mL)</label><input id="vol" type="number" inputmode="decimal" min="50" step="50" value="500"></div>
+   </div>
+  </div>
+  <div class="card">
+   <h2>Aditif dan elektrolit pekat</h2>
+   <div id="adds"></div>
+   <button class="btn" id="addb" type="button">Tambah aditif</button>
+  </div>
+  <div class="card">
+   <h2>Lokasi akses vena</h2>
+   <label for="site">Vena target</label>
+   <select id="site"></select>
+   <div class="site" id="sw"></div>
+  </div>
+ </div>
+ <div>
+  <div class="card">
+   <h2>Pedoman akses vena</h2>
+   <ul class="g">
+    <li class="a"><b>Di bawah 600 mOsm/L:</b> toleransi baik untuk seluruh vena perifer (tangan/lengan).</li>
+    <li class="b"><b>600–900 mOsm/L:</b> zona abu-abu. Risiko iritasi endotel/flebitis bila diberikan jangka panjang; pantau ketat.</li>
+    <li class="c"><b>Di atas 900 mOsm/L:</b> ambang tegas menurut INS (Infusion Nurses Society). Risiko sklerosis vena, tromboflebitis, dan ekstravasasi nekrotik lewat perifer. <b>Wajib CVC.</b></li>
+    <li class="b"><b>Vena kaki (dorsum pedis):</b> tidak disarankan untuk cairan di atas 600 mOsm/L karena aliran balik lambat dan risiko trombosis lebih tinggi.</li>
+   </ul>
+  </div>
+ </div>
+</div>
+<footer>Created by dr. Puguh Widagdo, Sp.PD-FINASIM<br>Alat bantu keputusan klinis; bukan pengganti penilaian klinis dan protokol rumah sakit.</footer>
+</div>
+
+<script>
+const FL=[
+["Kristaloid",[[308,"NaCl 0,9% Normal Saline"],[273,"Ringer Laktat (RL)"],[270,"Ringer Asetat (Asering)"],[252,"Dextrose 5%"],[505,"Dextrose 10%"],[2020,"Dextrose 40%"],[285,"KA-EN 1B"],[290,"KA-EN 3A / 3B"],[284,"KA-EN 4B"],[560,"D5-NS (Dextrose 5% dalam NaCl 0,9%)"],[406,"D5-½ NS"],[329,"D5-¼ NS"],[0,"Sterile Water for Injection (WFI)"]]],
+["Koloid",[[300,"Albumin 5%"],[300,"Albumin 20% / 25%"],[274,"Gelatin (Gelofusine / Gelafusal)"],[308,"HES 6% (Voluven / Haes-Steril)"]]],
+["Nutrisi parenteral",[[800,"Aminofusin L-600"],[768,"Aminoleban (BCAA)"],[770,"Aminosteril N-Hepa 8%"],[850,"Renxamin / Valamin"],[750,"Aminofluid"],[840,"Clinimix N9G15E"],[1050,"Clinimix N9G20E"],[750,"Kabiven Peripheral"],[1060,"Kabiven Central"],[310,"Emulsi lemak 10% / 20%"]]],
+["High alert",[[823,"Manitol 15%"],[1098,"Manitol 20%"]]]];
+const AD=[
+{id:'kcl',n:'KCl 7,46% (1 mEq K+/mL)',o:2.0,d:'Wajib diencerkan. Dilarang bolus IV langsung.'},
+{id:'nacl3',n:'NaCl 3%',o:1.026,d:'Hipertonik pekat. Pantau natrium serum ketat.'},
+{id:'bic',n:'Natrium Bikarbonat 8,4%',o:2.0,d:'Inkompatibel dengan kalsium (presipitasi).'},
+{id:'mg20',n:'MgSO4 20%',o:1.62,d:'Berikan perlahan; awasi refleks patella.'},
+{id:'mg40',n:'MgSO4 40%',o:3.25,d:'Sangat pekat. Utamakan pengenceran sebelum IV.'},
+{id:'ca',n:'Calcium Gluconate 10%',o:0.68,d:'Jangan dicampur dengan bikarbonat atau fosfat.'},
+{id:'kp',n:'Kalium Fosfat injeksi',o:3.0,d:'Risiko presipitasi tinggi bila ada kalsium.'},
+{id:'np',n:'Natrium Fosfat injeksi',o:2.4,d:'Risiko presipitasi tinggi bila ada kalsium.'}];
+const SITES=[["Vena perifer: lengan",[["p1","Fossa cubiti (median cubital / cephalic / basilic)"],["p2","Forearm / antebrachii"],["p3","Dorsum manus (punggung tangan)"]]],["Vena perifer: kaki (risiko flebitis tinggi)",[["leg","Dorsum pedis / saphena magna"]]],["Vena sentral",[["c1","CVC vena subklavia"],["c2","CVC vena jugularis interna"],["c3","CVC vena femoralis"],["c4","PICC line"]]]];
+let act=[{id:'kcl',ml:20}];
+const $=i=>document.getElementById(i);
+$('fl').innerHTML=FL.map((g,gi)=>`<optgroup label="${g[0]}">`+g[1].map((f,i)=>`<option value="${f[0]}" ${f[1]==='Ringer Laktat (RL)'?'selected':''}>${f[1]} — ${f[0]} mOsm/L</option>`).join('')+'</optgroup>').join('');
+$('site').innerHTML=SITES.map(g=>`<optgroup label="${g[0]}">`+g[1].map(s=>`<option value="${s[0]}">${s[1]}</option>`).join('')+'</optgroup>').join('');
+function draw(){
+ $('adds').innerHTML=act.length?act.map((a,i)=>{const s=AD.find(x=>x.id===a.id);return `<div class="add"><div class="r"><select data-i="${i}" data-k="id" aria-label="Aditif">${AD.map(o=>`<option value="${o.id}" ${o.id===a.id?'selected':''}>${o.n}</option>`).join('')}</select><input type="number" inputmode="decimal" min="0" step="any" value="${a.ml}" data-i="${i}" data-k="ml" aria-label="Volume aditif (mL)"><button class="x" type="button" data-del="${i}" aria-label="Hapus aditif">×</button></div><p><b style="color:var(--bd)">High alert.</b> ${s.d}</p></div>`}).join(''):'<p class="lbl">Belum ada aditif. Tekan “Tambah aditif” bila diperlukan.</p>';
+}
+$('adds').addEventListener('input',e=>{const t=e.target,i=t.dataset.i;if(i===undefined)return;if(t.dataset.k==='ml'){act[i].ml=parseFloat(t.value)||0;calc()}});
+$('adds').addEventListener('change',e=>{const t=e.target;if(t.dataset.k==='id'){act[t.dataset.i].id=t.value;draw();calc()}});
+$('adds').addEventListener('click',e=>{const d=e.target.dataset.del;if(d!==undefined){act.splice(d,1);draw();calc()}});
+$('addb').onclick=()=>{act.push({id:'kcl',ml:10});draw();calc()};
+['fl','vol','site'].forEach(i=>$(i).addEventListener('input',calc));
+function calc(){
+ const bo=parseFloat($('fl').value)||0,bv=parseFloat($('vol').value)||0;
+ let v=bv,s=bo*bv/1000;
+ act.forEach(a=>{const sp=AD.find(x=>x.id===a.id);if(sp&&a.ml>0){v+=a.ml;s+=sp.o*a.ml}});
+ const o=v>0?Math.round(s/v*1000):0;
+ $('osm').textContent=o.toLocaleString('id-ID');$('sv').textContent=v.toLocaleString('id-ID')+' mL';$('ss').textContent=Math.round(s).toLocaleString('id-ID')+' mOsm';
+ $('pin').style.left=Math.min(Math.max(o/1200*100,1.5),98.5)+'%';
+ const h=$('hero');let t,d,k;
+ if(o<600){k='ok';t='Aman untuk vena perifer';d='Isotonik hingga hipertonik ringan. Aman dialirkan lewat vena perifer, misalnya lengan.'}
+ else if(o<=900){k='wn';t='Waspada: risiko flebitis moderat';d='Hipertonik sedang dan dapat mengiritasi endotel. Pantau nyeri dan kemerahan; pertimbangkan CVC bila jangka panjang.'}
+ else{k='bd';t='Bahaya: kontraindikasi vena perifer';d='Sangat hipertonik. Risiko flebitis berat, nekrosis jaringan, dan tromboflebitis. Wajib lewat vena sentral (CVC).'}
+ h.dataset.t=k;$('vt').textContent=t;$('vd').textContent=d;
+ const has=i=>act.some(a=>a.id===i&&a.ml>0),ib=$('inc');
+ if(has('bic')&&has('ca')){ib.innerHTML='<b>Inkompatibilitas kimia.</b> Natrium bikarbonat 8,4% tidak boleh dicampur langsung dengan calcium gluconate 10%: terbentuk endapan kalsium karbonat.';ib.style.display='block'}
+ else if(has('ca')&&(has('kp')||has('np'))){ib.innerHTML='<b>Inkompatibilitas kimia.</b> Calcium gluconate 10% tidak boleh dicampur langsung dengan kalium/natrium fosfat: terbentuk endapan kalsium fosfat yang berbahaya bagi sirkulasi.';ib.style.display='block'}
+ else ib.style.display='none';
+ const st=$('site').value,w=$('sw'),per=st[0]==='p'||st==='leg',cv=st[0]==='c';
+ if(o>900&&per){w.className='site bd';w.innerHTML='<b>Lokasi tidak aman.</b> Vena perifer berisiko nekrosis tinggi untuk osmolaritas di atas 900 mOsm/L. Ubah rencana ke CVC.'}
+ else if(st==='leg'&&o>600){w.className='site wn';w.innerHTML='<b>Vena kaki.</b> Aliran balik lebih lambat sehingga risiko tromboflebitis lebih besar dibanding lengan.'}
+ else if(cv){w.className='site ok';w.innerHTML='<b>Lokasi kompatibel.</b> Akses sentral mentoleransi osmolaritas tinggi karena aliran vena cava yang cepat.'}
+ else{w.className='site';w.textContent='Lokasi vena perifer ini aman untuk osmolaritas cairan tersebut.'}
+}
+const R=document.documentElement;
+function th(m){R.dataset.theme=m;try{localStorage.setItem('osmo-theme',m)}catch(e){}}
+try{const m=localStorage.getItem('osmo-theme');if(m)R.dataset.theme=m}catch(e){}
+$('tg').onclick=()=>{const dark=R.dataset.theme?R.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;th(dark?'light':'dark')};
+// PWA: manifest dinamis, tombol pasang, dan panduan iPhone/Android
+try{
+ const ic='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#0b6f9e"/><path d="M256 96c70 90 110 148 110 200a110 110 0 0 1-220 0c0-52 40-110 110-200z" fill="#fff"/></svg>');
+ const mf={name:'OsmoSafe IV Medical',short_name:'OsmoSafe',lang:'id',display:'standalone',start_url:location.href.split('#')[0],background_color:'#08131d',theme_color:'#0b6f9e',icons:[{src:ic,sizes:'any',type:'image/svg+xml',purpose:'any'}]};
+ const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/manifest+json'}));document.head.appendChild(l);
+ const a=document.createElement('link');a.rel='apple-touch-icon';a.href=ic;document.head.appendChild(a);
+}catch(e){}
+let dp=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e});
+addEventListener('appinstalled',()=>{$('insWrap').style.display='none'});
+if(matchMedia('(display-mode: standalone)').matches||navigator.standalone)$('insWrap').style.display='none';
+$('inst').onclick=async()=>{
+ if(dp){dp.prompt();try{await dp.userChoice}catch(e){}dp=null;return}
+ const ios=/iphone|ipad|ipod/i.test(navigator.userAgent),h=$('how');
+ h.innerHTML=ios
+  ?'<b>iPhone / iPad (Safari)</b><ol><li>Ketuk ikon <b>Bagikan</b> di bar bawah Safari.</li><li>Pilih <b>Tambah ke Layar Utama</b>.</li><li>Ketuk <b>Tambah</b>.</li></ol>'
+  :'<b>Android (Chrome)</b><ol><li>Buka halaman ini di <b>Chrome</b>, bukan di dalam aplikasi lain.</li><li>Ketuk menu <b>⋮</b> di kanan atas.</li><li>Pilih <b>Instal aplikasi</b> atau <b>Tambahkan ke layar utama</b>.</li></ol>';
+ h.innerHTML+='<p style="margin:12px 0 0">Jika halaman ini terbuka di dalam aplikasi lain (WhatsApp, Instagram), salin tautan lalu buka di '+(ios?'Safari':'Chrome')+'.</p><button type="button" id="cp" style="margin-top:10px;background:none;border:1px solid var(--ac);color:var(--ac);border-radius:999px;padding:9px 16px;font:500 13px DM Sans,sans-serif;cursor:pointer">Bagikan / salin tautan</button>';
+ h.classList.toggle('on');
+ const cp=$('cp');if(cp)cp.onclick=async()=>{const u=location.href.split('#')[0];try{if(navigator.share){await navigator.share({title:'OsmoSafe IV Medical',url:u})}else{await navigator.clipboard.writeText(u);cp.textContent='Tautan disalin'}}catch(e){}};
+};
+draw();calc();
+</script>
+</body>
+</html>
